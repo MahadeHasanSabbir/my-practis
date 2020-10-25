@@ -108,31 +108,31 @@ float gpa(int subnum)
 }
 string LGPA(float lgpa)
 {
-    if(lgpa == 4.0){
+    if(lgpa <= 4.0 && lgpa >= 3.76){
         return "A+";
     }
-    else if(lgpa == 3.75){
+    else if(lgpa <= 3.75 && lgpa >= 3.51){
         return "A";
     }
-    else if(lgpa == 3.5){
+    else if(lgpa <= 3.5 && lgpa >= 3.26){
         return "A-";
     }
-    else if(lgpa == 3.25){
+    else if(lgpa <= 3.25 && lgpa >= 3.01){
         return "B+";
     }
-    else if(lgpa == 3.0){
+    else if(lgpa <= 3.0 && lgpa >= 2.76){
         return "B";
     }
-    else if(lgpa == 2.75){
+    else if(lgpa <= 2.75 && lgpa >= 2.51){
         return "B-";
     }
-    else if(lgpa == 2.5){
+    else if(lgpa <= 2.5 && lgpa >= 2.26){
         return "C+";
     }
-    else if(lgpa == 2.25){
+    else if(lgpa <= 2.25 && lgpa >= 2.01){
         return "C";
     }
-    else if(lgpa == 2.0){
+    else if(lgpa <= 2.0 && lgpa >= 1.01){
         return "D";
     }
     else if(lgpa == 1.0){
