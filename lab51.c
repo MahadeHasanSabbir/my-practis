@@ -44,7 +44,7 @@ int main(void)
         switch(option){
             case 1:
                 start = create_ll(start);
-                printf("\n LINKED LIST CREATED\n Enter any key to continue.");
+                printf("\n Enter any key to continue.");
                 getch();
                 break;
             case 2:
@@ -54,32 +54,32 @@ int main(void)
                 break;
             case 3:
                 start = insert_beginning(start);
-                printf("\n Node inserted at the beginning!\n Enter any key to continue.");
+                printf("\n Enter any key to continue.");
                 getch();
                 break;
             case 4:
                 start = insert_end(start);
-                printf("\n Node inserted at the end!\n Enter any key to continue.");
+                printf("\n Enter any key to continue.");
                 getch();
                 break;
             case 5:
                 start = insert_before(start);
-                printf("\n Node inserted before given node!\n Enter any key to continue.");
+                printf("\n Enter any key to continue.");
                 getch();
                 break;
             case 6:
                 start = delete_beginning(start);
-                printf("\n The beginning node removed!\n Enter any key to continue.");
+                printf("\n Enter any key to continue.");
                 getch();
                 break;
             case 7:
                 start = delete_end(start);
-                printf("\n The end node removed!\n Enter any key to continue.");
+                printf("\n Enter any key to continue.");
                 getch();
                 break;
             case 8:
                 start = delete_given(start);
-                printf("\n The given node removed!\n Enter any key to continue.");
+                printf("\n Enter any key to continue.");
                 getch();
                 break;
             case 9:
@@ -107,12 +107,16 @@ struct node* create_ll(struct node *start)
 
     while (num != -1){
         new_node = (struct node*) malloc(sizeof(struct node));
+        if (new_node == NULL){
+            printf("\n Overflow happen! can not insert node.");
+            return start;
+        }
         new_node -> data = num;
 
         if (start == NULL){
             start = new_node;
             new_node -> next = start;
-            new_node -> previous = NULL;
+            new_node -> previous = new_node;
         }
         else{
             ptr = start;
@@ -128,12 +132,17 @@ struct node* create_ll(struct node *start)
         printf("\n Enter the data: ");
         scanf("%d", &num);
     }
+    printf("\n LINKED LIST CREATED.");
 
     return start;
 }
 
 struct node* display(struct node *start)
 {
+    if (start == NULL){
+        printf("\n Linked list is empty! create first to see nodes.");
+        return start;
+    }
     struct node *ptr, *lastptr;
     ptr = start;
 
@@ -156,13 +165,20 @@ struct node* display(struct node *start)
 
 struct node* insert_beginning(struct node *start)
 {
+    if (start == NULL){
+        printf("\n Linked list is empty! create first to insert beginning.");
+        return start;
+    }
     struct node *ptr, *new_node;
     int val;
-
     printf("\n Enter the data of the new node to be inserted: ");
     scanf("%d", &val);
 
     new_node = (struct node*) malloc(sizeof(struct node));
+    if (new_node == NULL){
+        printf("\n Overflow happen! can not insert node.");
+        return start;
+    }
     new_node -> data = val;
     ptr = start;
     new_node -> next = ptr;
@@ -173,12 +189,17 @@ struct node* insert_beginning(struct node *start)
     start = new_node;
     new_node -> previous = ptr;
     ptr -> next = start;
+    printf("\n Node inserted at the beginning!");
 
     return start;
 }
 
 struct node* insert_end(struct node *start)
 {
+    if (start == NULL){
+        printf("\n Linked list is empty! create first to insert node at end.");
+        return start;
+    }
     struct node *new_node, *ptr;
     int val;
 
@@ -186,6 +207,10 @@ struct node* insert_end(struct node *start)
     scanf("%d", &val);
 
     new_node = (struct node*) malloc(sizeof(struct node));
+    if (new_node == NULL){
+        printf("\n Overflow happen! can not insert node.");
+        return start;
+    }
     new_node -> data = val;
 
     ptr = start;
@@ -197,12 +222,17 @@ struct node* insert_end(struct node *start)
     new_node -> next = start;
     new_node -> previous = ptr;
     start -> previous = new_node;
+    printf("\n Node inserted at the end!");
 
     return start;
 }
 
 struct node* insert_before(struct node *start)
 {
+    if (start == NULL){
+        printf("\n Linked list is empty! create it first to insert before.");
+        return start;
+    }
     struct node *new_node, *ptr, *preptr;
     int num, val;
     printf("\n Enter the data of the given node: ");
@@ -211,25 +241,38 @@ struct node* insert_before(struct node *start)
     printf("\n Enter the data of the new node to be inserted: ");
     scanf("%d", &val);
 
-    new_node = (struct node*) malloc(sizeof(struct node));
-    new_node -> data = val;
-
     ptr = start;
     while(ptr -> data != num){
         ptr = ptr -> next;
+        if (ptr == start){
+            printf("\n Given  node is not in this linked list!");
+            return start;
+        }
     }
+
+    new_node = (struct node*) malloc(sizeof(struct node));
+    if (new_node == NULL){
+        printf("\n Overflow happen! can not insert node.");
+        return start;
+    }
+    new_node -> data = val;
 
     preptr = ptr -> previous;
     preptr -> next = new_node;
     new_node -> previous = preptr;
     new_node -> next = ptr;
     ptr -> previous = new_node;
+    printf("\n Node inserted before given node!");
 
     return start;
 }
 
 struct node* delete_beginning(struct node *start)
 {
+    if (start == NULL){
+        printf("\n There is no node in linked list! you cannot delete node.");
+        return start;
+    }
     struct node *ptr;
     ptr = start;
     start = ptr -> next;
@@ -237,12 +280,17 @@ struct node* delete_beginning(struct node *start)
     (ptr -> next) -> previous = ptr -> previous;
     ptr -> next = start;
     free(ptr);
+    printf("\n The beginning node removed!");
 
     return start;
 }
 
 struct node* delete_end(struct node *start)
 {
+    if (start == NULL){
+        printf("\n There is no node in linked list! you cannot delete node.");
+        return start;
+    }
     struct node *ptr, *preptr;
     ptr = start;
     while(ptr -> next != start){
@@ -252,12 +300,17 @@ struct node* delete_end(struct node *start)
     preptr -> next = start;
     start -> previous = preptr;
     free(ptr);
+    printf("\n The end node removed!");
 
     return start;
 }
 
 struct node* delete_given(struct node *start)
 {
+    if (start == NULL){
+        printf("\n There is no node in linked list! you cannot delete node.");
+        return start;
+    }
     struct node *ptr;
     int num;
     printf("\n Enter the data of the given node: ");
@@ -266,16 +319,25 @@ struct node* delete_given(struct node *start)
     ptr = start;
     while(ptr -> data != num){
         ptr = ptr -> next;
+        if (ptr == start){
+            printf("\n Given  node is not in this linked list!");
+            return start;
+        }
+
     }
     (ptr -> previous) -> next = ptr -> next;
     (ptr -> next) -> previous = ptr -> previous;
     free(ptr);
+    printf("\n The given node removed!");
 
     return start;
 }
 
 struct node* free_nodes(struct node *start)
 {
+    if (start == NULL){
+        return start;
+    }
     struct node *ptr, *dnode;
     ptr = start;
     do {
