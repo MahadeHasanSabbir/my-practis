@@ -1,6 +1,6 @@
 //practice different types of inheritance
 #include <iostream>
-#include <stdlib.h>
+#include <cstdlib>
 using namespace std;
 
 //create a class parson to create a person object
