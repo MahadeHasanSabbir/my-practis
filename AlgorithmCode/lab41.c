@@ -4,10 +4,10 @@
 //Marge function
 void merge(int array[], int l, int m, int h)
 {
-    int arr1[m],arr2[m];
     int n1,n2,i,j,k = l;
     n1 = m - l + 1;
     n2 = h - m;
+    int arr1[n1],arr2[n2];
     //create two sub array
     for(i = 0; i < n1; i++) {
         arr1[i] = array[l+i];
@@ -57,8 +57,9 @@ int main(void)
     scanf("%d", &asize);
     int elements[asize];
     srand(time(0));
-    printf("\n The random numbers:");
+    
     //take random numbers as elements
+    printf("\n The random numbers:");
     for (i = 0; i < asize; i++) {
         elements[i] = (rand() % 500);
         printf("\t%d", elements[i]);
