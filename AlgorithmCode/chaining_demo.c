@@ -4,7 +4,7 @@
 #include <time.h>
 #include <conio.h>
 
-#define size 12
+#define size 15
 
 struct node {
     struct node *prev;
@@ -172,6 +172,7 @@ int main(void)
             printf("\n Enter any key to continue.");
             getch();
             break;
+                
         default:
             printf("\n Enter option (0-4)!\n Enter any key to continue.");
             getch();
