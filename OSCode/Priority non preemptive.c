@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 typedef struct{
-    int pno, brust, priority, wait;
+    int pno, burst, priority, wait;
 }process;
 
 int main(void){
@@ -20,8 +20,8 @@ int main(void){
         arr[i].wait = 0;
         do{
             printf("\n Enter burst time of process \'%d\': ", i+1);
-            scanf("%d", &arr[i].brust);
-        }while(arr[i].brust < 0);
+            scanf("%d", &arr[i].burst);
+        }while(arr[i].burst < 0);
         do{
             printf(" Enter priority of process \'%d\': ", i+1);
             scanf("%d", &arr[i].priority);
@@ -30,17 +30,17 @@ int main(void){
     }
     //using selection sort
     for (int i = 0; i < size; i++){
-        //take one number from array i'th index element
+        //take one number from i'th index process
         int temp = arr[i].priority, t = size;
         //apply selection sort on this number
         for (int j = (i+1); j < size; j++){
-            //find index of smaller number element
+            //find index of smaller priority process
             if (temp > arr[j].priority){
                 t = j;
                 temp = arr[j].priority;
             }
         }
-        //swap small number with taken number
+        //swap smaller priority process with taken priority process
         if(arr[i].priority > arr[t].priority){
             process tprocess;
             tprocess = arr[i];
@@ -52,12 +52,12 @@ int main(void){
     printf("\n Waiting time per process:");
     for(int i = 0; i < size; i++){
         printf("\n Process \'%d\' = %d", arr[i].pno, arr[i].wait);
-        arr[i+1].wait = arr[i].wait + arr[i].brust;
+        arr[i+1].wait = arr[i].wait + arr[i].burst;
         totalw += arr[i].wait;
     }
     //average waiting time
     average = totalw / size;
-    printf("\n Average waiting time = %0.2f\n", average);
+    printf("\n\n Average waiting time = %0.2f unit time\n\n", average);
 
     return 0;
 }

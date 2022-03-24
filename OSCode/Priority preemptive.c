@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 typedef struct{
-    int pno, burst, arrival, wait, remain, end;
+    int pno, burst, arrival, wait, remain, end, priority;
 }process;
 
 int main(void){
@@ -23,6 +23,8 @@ int main(void){
         scanf("%d", &arr[i].burst);
         printf(" Enter arrival time of process \'%d\': ", i+1);
         scanf("%d", &arr[i].arrival);
+        printf(" Enter priority of process \'%d\': ", i+1);
+        scanf("%d", &arr[i].priority);
         arr[i].remain = arr[i].burst;
         totalb += arr[i].burst;
     }
@@ -37,22 +39,21 @@ int main(void){
             }
         }
         if(j > 0){
-            //find index of smallest burst time process
-            int t1 = temp[0].remain, t2 = temp[0].pno - 1;
+            //find index of smallest priority number process
+            int t1 = temp[0].priority, t2 = temp[0].pno - 1;
             for(int i = 1; i < j; i++){
-                if (t1 > temp[i].remain){
+                if (t1 > temp[i].priority){
                     t2 = temp[i].pno - 1;
-                    t1 = temp[i].remain;
+                    t1 = temp[i].priority;
                 }
             }
-            //reduce burst time
+            //reduce process burst time
             arr[t2].remain--;
             //implement end time
             if(arr[t2].remain == 0){
                 arr[t2].end = time + 1;
             }
         }
-
     }
     //print all process waiting time
     printf("\n Waiting time per process:");
@@ -63,7 +64,7 @@ int main(void){
     }
     //average waiting time
     average = totalw / size;
-    printf("\n Average waiting time = %0.2f unit time\n", average);
+    printf("\n Average waiting time = %0.2f\n", average);
 
     return 0;
 }

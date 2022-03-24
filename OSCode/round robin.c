@@ -1,15 +1,17 @@
 #include <stdio.h>
 
 typedef struct{
-    int pno, burst, arrival, wait, remain, end;
+    int pno, burst, wait, remain, end;
 }process;
 
 int main(void){
     //normal variable
-    int size = 0, totalb = 0;
+    int size = 0, totalb = 0, robin;
     float average, totalw = 0;
     printf("\n Enter amount of process: ");
     scanf("%d", &size);
+    printf("\n Enter time quantum: ");
+    scanf("%d", &robin);
 
     //array variable
     process arr[size];
@@ -21,43 +23,31 @@ int main(void){
         arr[i].end = 0;
         printf("\n Enter burst time of process \'%d\': ", i+1);
         scanf("%d", &arr[i].burst);
-        printf(" Enter arrival time of process \'%d\': ", i+1);
-        scanf("%d", &arr[i].arrival);
         arr[i].remain = arr[i].burst;
         totalb += arr[i].burst;
     }
     //calculate end time for all process
-    for(int time = 0; time < totalb; time++){
-        process temp[size];
-        int j = 0;
-        for(int i = 0; i < size; i++){
-            if((arr[i].arrival <= time) && (arr[i].remain > 0)){
-                temp[j] = arr[i];
-                j++;
+    int time = 0;
+    while(time < totalb){
+        for(int j = 0; j < size; j++){
+            //reduce burst time and implement end time
+            if (arr[j].remain > robin){
+                arr[j].remain -= robin;
+                time += robin;
+            }
+            else if (arr[j].remain > 0){
+                int temp = robin - arr[j].remain;
+                arr[j].end = time + (robin - temp);
+                time -= temp;
+                arr[j].remain = 0;
+                time += robin;
             }
         }
-        if(j > 0){
-            //find index of smallest burst time process
-            int t1 = temp[0].remain, t2 = temp[0].pno - 1;
-            for(int i = 1; i < j; i++){
-                if (t1 > temp[i].remain){
-                    t2 = temp[i].pno - 1;
-                    t1 = temp[i].remain;
-                }
-            }
-            //reduce burst time
-            arr[t2].remain--;
-            //implement end time
-            if(arr[t2].remain == 0){
-                arr[t2].end = time + 1;
-            }
-        }
-
     }
     //print all process waiting time
     printf("\n Waiting time per process:");
     for(int i = 0; i < size; i++){
-        arr[i].wait = (arr[i].end - arr[i].burst) - arr[i].arrival;
+        arr[i].wait = arr[i].end - arr[i].burst;
         printf("\n Process \'%d\' = %d", arr[i].pno, arr[i].wait);
         totalw += arr[i].wait;
     }
